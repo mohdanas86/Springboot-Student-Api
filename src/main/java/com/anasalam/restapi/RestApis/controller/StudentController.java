@@ -4,6 +4,7 @@ import com.anasalam.restapi.RestApis.DTO.StudentCreateRequestDto;
 import com.anasalam.restapi.RestApis.DTO.StudentDto;
 import com.anasalam.restapi.RestApis.DTO.StudentUpdateRequestDto;
 import com.anasalam.restapi.RestApis.service.StudentServices;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,9 +59,10 @@ public class StudentController {
     /*
      * === CREATE A NEW STUDENT (POST) ===
      * Status: 201 created
+     * Now with @Valid - validates before method execution
      * */
     @PostMapping
-    public ResponseEntity<StudentDto> createStudent(@RequestBody StudentCreateRequestDto createRequestDto){
+    public ResponseEntity<StudentDto> createStudent(@Valid @RequestBody StudentCreateRequestDto createRequestDto){
         StudentDto createStudent = studentServices.createStudent(createRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createStudent);
     }
@@ -72,7 +74,7 @@ public class StudentController {
     @PutMapping("/{id}")
     public  ResponseEntity<StudentDto> updateStudent(
             @PathVariable long id,
-            @RequestBody StudentUpdateRequestDto updateRequestDto
+            @Valid  @RequestBody StudentUpdateRequestDto updateRequestDto
     ){
         Optional<StudentDto> updateStudent = studentServices.updateStudent(id, updateRequestDto);
         if(updateStudent.isPresent()){
