@@ -34,12 +34,8 @@ public class StudentController {
     * */
     @GetMapping("/{id}")
     public ResponseEntity<StudentDto> getStudentById(@PathVariable long id){
-        Optional<StudentDto> student = studentServices.getStudentById(id);
-        if (student.isPresent()) {
-            return ResponseEntity.ok(student.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        StudentDto student = studentServices.getStudentById(id);
+        return ResponseEntity.ok(student);
     }
 
     /*
@@ -48,12 +44,8 @@ public class StudentController {
     * */
     @GetMapping("/by-email")
     public ResponseEntity<StudentDto> getStudentByEmail(@RequestParam String email) {
-        Optional<StudentDto> student = studentServices.getStudentByEmail(email);
-        if(student.isPresent()){
-            return ResponseEntity.ok(student.get());
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+        StudentDto student = studentServices.getStudentByEmail(email);
+        return ResponseEntity.ok(student);
     }
 
     /*
@@ -76,12 +68,8 @@ public class StudentController {
             @PathVariable long id,
             @Valid  @RequestBody StudentUpdateRequestDto updateRequestDto
     ){
-        Optional<StudentDto> updateStudent = studentServices.updateStudent(id, updateRequestDto);
-        if(updateStudent.isPresent()){
-            return ResponseEntity.ok(updateStudent.get());
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+        StudentDto updateStudent = studentServices.updateStudent(id, updateRequestDto);
+        return ResponseEntity.ok(updateStudent);
     }
 
     /*
@@ -90,10 +78,7 @@ public class StudentController {
      * */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable long id){
-        if(studentServices.deleteStudent(id)){
-            return ResponseEntity.noContent().build();
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+        studentServices.deleteStudent(id);
+        return ResponseEntity.noContent().build();
     }
 }
